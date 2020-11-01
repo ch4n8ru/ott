@@ -1,0 +1,11 @@
+.content-card-container{
+margin-top: 20px;
+height: 100vh;
+}
+
+
+.card-container{
+    height: 15em;
+    background-color: red;
+    margin: 10px;
+}
