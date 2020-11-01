@@ -5,5 +5,6 @@ export interface Content{
     language: string,
     added:Date,
     genres: Array<string>,
-    cast:Array<string>
+    cast:Array<string>,
+    imageUrl:string
 }
