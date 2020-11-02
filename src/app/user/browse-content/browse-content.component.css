@@ -1,11 +1,28 @@
+.browse-content-container{
+    min-height: 100vh;
+    height: 100%;
+}
+
 .content-card-container{
-margin-top: 20px;
-height: 100vh;
+    margin-top: 20px;
+    height: 70%;
+
+}
+
+.filter-sort-container{
+    height: 30% ;
+    min-height: 200px;
+    background-color: #212529;
+    
 }
 
 
 .card-container{
-    height: 15em;
-    background-color: red;
-    margin: 10px;
+    height: 20em;
+    /* padding: 0; */
+    /* margin: 25px; */
+    margin-bottom: 40px;
+    min-width: 270px;
+    display:flex;
+    justify-content: center;
 }

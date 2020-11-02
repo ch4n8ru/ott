@@ -5,6 +5,8 @@ import { CuratedComponent } from './curated/curated.component';
 import { HomeComponent } from './home/home.component';
 import { UserRoutingModule } from './user-routing.module';
 import { Routes, RouterModule } from '@angular/router';
+import { ContentCardComponent } from './content-card/content-card.component';
+import { RatingModule } from 'ng-starrating';
 
 
 
@@ -13,11 +15,13 @@ import { Routes, RouterModule } from '@angular/router';
   declarations: [
     BrowseContentComponent,
     CuratedComponent,
-    HomeComponent
+    HomeComponent,
+    ContentCardComponent
   ],
   imports: [
     CommonModule,
-    UserRoutingModule
+    UserRoutingModule,
+    RatingModule
   ],
 })
 export class UserModule { }

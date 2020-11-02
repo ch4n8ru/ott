@@ -1,13 +1,70 @@
-<section class="container content-card-container" >
-    <div class="row content-card-display" >
-        <div class="col-lg-2 card-container"></div>
-        <div class="col-lg-2 card-container"></div>
-        <div class="col-lg-2 card-container"></div>
-        <div class="col-lg-2 card-container"></div>
-        <div class="col-lg-2 card-container"></div>
-        <div class="col-lg-2 card-container"></div>
-        <div class="col-lg-2 card-container"></div>
-        <div class="col-lg-2 card-container"></div>
-        <div class="col-lg-2 card-container"></div>
+<div class="browse-content-container">
+    <section class="filter-sort-container">
+
+    </section>
+
+    <section class="container-fluid content-card-container">
+        <div class="row content-card-display">
+        <ng-container *ngFor ="let content of displayContents">
+            <div class="col-lg-6 col-xl-3 col-md-6 card-container">
+                <app-content-card [content]= content></app-content-card>
+            </div>
+        </ng-container>
     </div>
-</section>
+    </section>
+</div>
+
+
+
+
+
+<!-- <div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div> <div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div> -->
