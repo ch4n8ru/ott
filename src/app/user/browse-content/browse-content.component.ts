@@ -7,115 +7,104 @@ import { HomeComponent } from '../home/home.component';
   templateUrl: './browse-content.component.html',
   styleUrls: ['./browse-content.component.css']
 })
-export class BrowseContentComponent extends HomeComponent implements OnInit  {
+export class BrowseContentComponent extends HomeComponent implements OnInit {
+  filterMode: string = 'NONE';
+  filterValue: string = 'NONE';
+  filterFields: Array<string>;
+  filterMap: Map<string, Array<string>>;
+
+  sortMode:string = "NONE";
+  sortType:string = "NONE"
+  sortFields:Array<string>;
+  availableSortTypes:Array<string>;
 
 
-  constructor() { 
+  constructor() {
     super();
+    this.filterMap = new Map();
+    this.filterFields = ["GENRE", "LANGUAGE"]
+    this.filterMap["GENRE"] = ["ACTION", "ADVENTURE", "THRILLER"]
+    this.filterMap["LANGUAGE"] = ["TAMIL", "ENGLISH", "HINDI"]
+
+    this.sortFields = ["RATING" , "ADDED"];
+    this.availableSortTypes = ["ASC" , "DESC"]
+
   }
 
-  
+
   ngOnInit(): void {
-    this.displayContents = JSON.parse(`{
-      "availableContent" : [
-          {
-              "contentId": "1aihpasvhnoaiovnra",
-              "title":"title1",
-              "duration":"2h",
-              "type":0,
-              "rating":5,
-              "language": "Hindi",
-              "added":"28/05/1998",
-              "genres": ["crime" , "thriller"],
-              "cast":["A" , "B" , "C"],
-              "year":"2000"
-          },
-          {
-              "contentId": "1aihpasvhnoaiovnrb",
-              "title":"title2",
-              "duration":"2h",
-              "type":0,
-              "rating":2,
-              "language": "Tamil",
-              "added":"21/05/1998",
-              "genres": ["romance" , "drama"],
-              "cast":["A" , "B" , "C"],
-              "year":"2000"
-          },
-          {
-              "contentId": "1aihpasvhnoaiovnrc",
-              "title":"title3",
-              "duration":"2h",
-              "type":0,
-              "rating":4,
-              "language": "Hindi",
-              "added":"18/05/1998",
-              "genres": ["crime" , "thriller"],
-              "cast":["A" , "B" , "C"],
-              "year":"2000"
-          },
-          {
-              "contentId": "1aihpasvhnoaiovnrd",
-              "title":"title4",
-              "type":0,
-              "rating":3,
-              "language": "English",
-              "added":"20/05/1998",
-              "genres": ["romcom"],
-              "cast":["A" , "B" , "C"],
-              "year":"2000"
-          },
-          {
-              "contentId": "1aihpasvhnoaiovnre",
-              "title":"title5",
-              "duration":"2h",
-              "type":0,
-              "rating":2,
-              "language": "Hindi",
-              "added":"28/06/1998",
-              "genres": ["action"],
-              "cast":["A" , "B" , "C"],
-              "year":"2000"
-          },
-          {
-              "contentId": "1aihpasvhnoaiovnrf",
-              "title":"title6",
-              "duration":"2h",
-              "type":0,
-              "rating":1,
-              "language": "Hindi",
-              "added":"28/05/1998",
-              "genres": [ "adventure" , "action"],
-              "cast":["A" , "B" , "C"],
-              "year":"2000"
-          },
-          {
-              "contentId": "1aihpasvhnoaiovnrg",
-              "title":"title7",
-              "duration":"2h",
-              "type":0,
-              "rating":5,
-              "language": "English",
-              "added":"28/05/1998",
-              "genres": ["war" , "thriller"],
-              "cast":["A" , "B" , "C"],
-              "year":"2000"
-          },
-          {
-              "contentId": "1aihpasvhnoaiovnrh",
-              "title":"title8",
-              "duration":"2h",
-              "type":0,
-              "rating":4,
-              "language": "Tamil",
-              "added":"28/05/1998",
-              "genres": ["crime" , "thriller"],
-              "cast":["A" , "B" , "C"],
-              "year":"2000"
-          }
-  
-      ]
-  }`).availableContent
+
   }
 
+
+  onFilterChange($event) {
+    console.log($event);
+    let filterTerm = $event;
+    if(!filterTerm) this.filterMode="NONE"
+    this.displayContents = this.filterBy(filterTerm);
+  }
+
+  filterBy(filterTerm) {
+    let filterFunction;
+    switch (this.filterMode) {
+      case "GENRE": filterFunction = (allContents: Array<Content>, filterValue) => {
+        return allContents.filter(content => this.checkList(content.genres, filterTerm))
+      }
+        break;
+      case "LANGUAGE": filterFunction = (allContents: Array<Content>, filterValue) => {
+        return allContents.filter(content => content.language.toUpperCase() === filterValue.toUpperCase())
+      }
+        break;
+      case "NONE": filterFunction = (allContents, filterValue) => allContents;
+    }
+
+    let filterResult = filterFunction(this.allContents, filterTerm)
+    return [...filterResult]
+  }
+
+  checkList(list, key) {
+    return list.map(ele => ele.toUpperCase()).indexOf(key.toUpperCase()) > -1
+  }
+
+
+  onSortChange($event){
+      let sortByField = this.sortMode;
+      let sortedResult;
+      switch(this.sortType){
+        case "ASC":  sortedResult = this.sortByAscending([...this.displayContents] ,sortByField)
+        break;
+        case "DESC": sortedResult = this.sortBydescending([...this.displayContents] ,sortByField)
+        break;
+      }
+      this.displayContents = sortedResult;
+  }
+
+  sortByAscending(allContents:Array<Content> , sortByField){
+    sortByField = sortByField.toLowerCase();
+    let compareFunction = function compare( a:Content, b:Content ) {
+      if ( a[sortByField] < b[sortByField] ){
+        return -1;
+      }
+      if ( a[sortByField] > b[sortByField] ){
+        return 1;
+      }
+      return 0;
+    }
+    return allContents.sort(compareFunction)
+  }
+
+  sortBydescending(allContents:Array<Content> , sortByField){
+    sortByField = sortByField.toLowerCase();
+    let compareFunction = function compare( a:Content, b:Content ) {
+      if ( a[sortByField] < b[sortByField] ){
+        return 1;
+      }
+      if ( a[sortByField] > b[sortByField] ){
+        return -1;
+      }
+      return 0;
+    }
+    return allContents.sort(compareFunction)
+  }
+  
 }

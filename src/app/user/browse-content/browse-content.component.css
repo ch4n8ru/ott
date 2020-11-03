@@ -1,3 +1,27 @@
+.home-topbar{
+    height: 30% ;
+    min-height: 200px;
+    background-color: #212529;
+}
+
+.home-topbar .container-fluid{
+    min-height: inherit;
+}
+
+.home-topbar .container-fluid .row{
+    min-height: inherit;
+    align-items: center;
+}
+
+.content-breadcrumb{
+    color:white;
+}
+
+.select-custom{
+    min-width:50%;
+    height: 3em;
+}
+
 .browse-content-container{
     min-height: 100vh;
     height: 100%;
@@ -8,14 +32,6 @@
     height: 70%;
 
 }
-
-.filter-sort-container{
-    height: 30% ;
-    min-height: 200px;
-    background-color: #212529;
-    
-}
-
 
 .card-container{
     height: 20em;
