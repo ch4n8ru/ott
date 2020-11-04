@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Content } from '../../models/content';
-import { FilterExpression } from '../../models/filter';
-import { SortExpression } from '../../models/sort';
+import { FilterExpressionType } from '../../models/filter';
+import { SortExpressionType } from '../../models/sort';
 
 export enum ContentActionTypes{
     LoadContents = "[Content] Load",
@@ -22,12 +22,12 @@ export class ContentsLoaded implements Action{
 
 export class FilterContent implements Action{
     readonly type = ContentActionTypes.FilterContent;
-    constructor(public payload:FilterExpression){}
+    constructor(public payload:FilterExpressionType){}
 }
 
 export class SortContent implements Action{
     readonly type = ContentActionTypes.SortContent;
-    constructor(public payload:SortExpression){}
+    constructor(public payload:SortExpressionType){}
 }
 
 

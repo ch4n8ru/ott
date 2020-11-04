@@ -1,7 +1,18 @@
-export interface FilterExpression{
+export interface FilterExpressionType{
     type:FilterType,
     appliedFilters?:Array<FilterType>,
     filterName?: string
+}
+
+export class FilterExpression implements FilterExpressionType{
+    type;
+    appliedFilters;
+    filterName
+    constructor(type , appliedFilters = [] , filterName = ''){
+        this.type = type;
+        this.appliedFilters = appliedFilters;
+        this.filterName = filterName;
+    }
 }
 
 export enum FilterType{

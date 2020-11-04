@@ -22,15 +22,15 @@
                     </div>
                     
                     <div class="d-flex sort-container col-lg-4">
-                        <select class="select-custom" [(ngModel)]="sortMode" (ngModelChange)="onSortChange($event)"  name="sort-mode" id="">
+                        <select class="select-custom" [(ngModel)]="sortBy" (ngModelChange)="onSortChange($event)"  name="sort-mode" id="">
                             <option value="NONE" selected>Sort By</option>
                             <ng-container *ngFor="let field of sortFields">
                                 <option [value]="field">{{field}}</option>
                             </ng-container>
                         </select>
-                        <select [(ngModel)] = "sortType" (ngModelChange)="onSortChange($event)"  class="select-custom" name="filterValue" id="">
-                            <option value="NONE" selected>Select</option>
-                            <ng-container *ngFor="let sortType of availableSortTypes">
+                        <select [(ngModel)] = "sortOrder" (ngModelChange)="onSortChange($event)"  class="select-custom" name="filterValue" id="">
+                            <option [ngValue]="0" selected>Select</option>
+                            <ng-container *ngFor="let sortType of availableSortOrders">
                                 <option [value]="sortType">{{sortType}}</option>
                             </ng-container>
                         </select>

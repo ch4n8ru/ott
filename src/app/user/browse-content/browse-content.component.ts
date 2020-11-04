@@ -1,10 +1,11 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { Content } from 'src/app/data/models/content';
-import { FilterExpression, FilterType, FilterTypeMapping } from 'src/app/data/models/filter';
+import { FilterExpression, FilterExpressionType, FilterType, FilterTypeMapping } from 'src/app/data/models/filter';
 import { ContentState } from 'src/app/data/state/content/content.reducer';
 import { HomeComponent } from '../home/home.component';
 import { select, Store } from '@ngrx/store';
-import { FilterContent, LoadContents } from 'src/app/data/state/content/content.action';
+import { FilterContent, LoadContents, SortContent } from 'src/app/data/state/content/content.action';
+import { SortExpression, SortOrder } from 'src/app/data/models/sort';
 
 
 @Component({
@@ -15,13 +16,13 @@ import { FilterContent, LoadContents } from 'src/app/data/state/content/content.
 export class BrowseContentComponent extends HomeComponent implements OnInit {
   filterMode: FilterType = FilterType.None;
   filterValue: string = 'NONE';
-  filterFields: Array<FilterExpression>;
+  filterFields: Array<FilterExpressionType>;
   filterMap: Map<FilterType, Array<string>>;
 
-  sortMode: string = "NONE";
-  sortType: string = "NONE"
+  sortBy: string = "NONE";
+  sortOrder: SortOrder = SortOrder.None
   sortFields: Array<string>;
-  availableSortTypes: Array<string>;
+  availableSortOrders: Array<Sort>;
 
 
   constructor(injector: Injector) {
@@ -35,7 +36,7 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
     this.filterMap[FilterType.Language] = ["TAMIL", "ENGLISH", "HINDI"]
 
     this.sortFields = ["RATING", "ADDED"];
-    this.availableSortTypes = ["ASC", "DESC"]
+    this.availableSortOrders = [SortOrder.ASCENDING , SortOrder.DESCENDING]
 
   }
 
@@ -49,64 +50,38 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
     console.log($event);
     let filterTerm = $event;
     let filterMode = this.filterMode;
+    
     if (filterTerm == "NONE")
       filterMode = FilterType.None
-    let payload: FilterExpression;
-    payload.type = this.filterMode;
-    payload.appliedFilters.push(filterTerm);
+
+    let appliedFilters = []
+    appliedFilters.push(filterTerm);
+    let payload = new FilterExpression(filterMode, appliedFilters)
     this.store.dispatch(new FilterContent(payload));
-    this.displayContents = this.filterBy(filterTerm, filterMode);
+    // this.displayContents = this.filterBy(filterTerm, filterMode);
   }
 
-  
+
 
   resetFilterTerm() {
     if (this.filterValue != "NONE") {
       this.filterMode = FilterType.None;
       this.filterValue = "NONE"
     }
-    this.displayContents = this.filterBy('', FilterType.None)
+    // REset filter action
+    let appliedFilters = []
+    let payload = new FilterExpression(FilterType.None, appliedFilters)
+    this.store.dispatch(new FilterContent(payload));
+    // this.displayContents = this.filterBy('', FilterType.None)
   }
 
 
   onSortChange($event) {
-    let sortByField = this.sortMode;
-    let sortedResult;
-    switch (this.sortType) {
-      case "ASC": sortedResult = this.sortByAscending([...this.displayContents], sortByField)
-        break;
-      case "DESC": sortedResult = this.sortBydescending([...this.displayContents], sortByField)
-        break;
-    }
-    this.displayContents = sortedResult;
+    let sortExpression = new SortExpression(this.sortOrder , this.sortBy);
+    this.store.dispatch(new SortContent(sortExpression));
+    
+    // this.displayContents = sortedResult;
   }
 
-  sortByAscending(allContents: Array<Content>, sortByField) {
-    sortByField = sortByField.toLowerCase();
-    let compareFunction = function compare(a: Content, b: Content) {
-      if (a[sortByField] < b[sortByField]) {
-        return -1;
-      }
-      if (a[sortByField] > b[sortByField]) {
-        return 1;
-      }
-      return 0;
-    }
-    return allContents.sort(compareFunction)
-  }
-
-  sortBydescending(allContents: Array<Content>, sortByField) {
-    sortByField = sortByField.toLowerCase();
-    let compareFunction = function compare(a: Content, b: Content) {
-      if (a[sortByField] < b[sortByField]) {
-        return 1;
-      }
-      if (a[sortByField] > b[sortByField]) {
-        return -1;
-      }
-      return 0;
-    }
-    return allContents.sort(compareFunction)
-  }
-
+ 
 }
