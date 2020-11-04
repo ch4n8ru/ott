@@ -1,7 +1,7 @@
 export interface FilterBy{
     type:FilterType,
     appliedFilters?:Array<FilterType>,
-    filterValue: string
+    filterName: string
 }
 
 export enum FilterType{
@@ -15,3 +15,4 @@ export const FilterTypeMapping = {
     "1":FilterType.Genre,
     "2":FilterType.Language,
 }
+

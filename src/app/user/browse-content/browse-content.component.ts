@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from 'src/app/models/content';
+import { FilterBy, FilterType ,FilterTypeMapping } from 'src/app/models/filter';
 import { HomeComponent } from '../home/home.component';
 
 @Component({
@@ -8,10 +9,10 @@ import { HomeComponent } from '../home/home.component';
   styleUrls: ['./browse-content.component.css']
 })
 export class BrowseContentComponent extends HomeComponent implements OnInit {
-  filterMode: string = 'NONE';
+  filterMode: FilterType = FilterType.None;
   filterValue: string = 'NONE';
-  filterFields: Array<string>;
-  filterMap: Map<string, Array<string>>;
+  filterFields: Array<FilterBy>;
+  filterMap: Map<FilterType, Array<string>>;
 
   sortMode:string = "NONE";
   sortType:string = "NONE"
@@ -22,9 +23,12 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
   constructor() {
     super();
     this.filterMap = new Map();
-    this.filterFields = ["GENRE", "LANGUAGE"]
-    this.filterMap["GENRE"] = ["ACTION", "ADVENTURE", "THRILLER"]
-    this.filterMap["LANGUAGE"] = ["TAMIL", "ENGLISH", "HINDI"]
+    this.filterFields = [
+      {type: FilterType.Genre , filterName:"GENRE"},
+      {type: FilterType.Language , filterName:"LANGUAGE"}
+    ]
+    this.filterMap[FilterType.Genre] = ["ACTION", "ADVENTURE", "THRILLER"]
+    this.filterMap[FilterType.Language] = ["TAMIL", "ENGLISH", "HINDI"]
 
     this.sortFields = ["RATING" , "ADDED"];
     this.availableSortTypes = ["ASC" , "DESC"]
@@ -40,22 +44,24 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
   onFilterChange($event) {
     console.log($event);
     let filterTerm = $event;
-    if(!filterTerm) this.filterMode="NONE"
-    this.displayContents = this.filterBy(filterTerm);
+    let filterMode = this.filterMode;
+    if(filterTerm == "NONE")
+      filterMode = FilterType.None
+    this.displayContents = this.filterBy(filterTerm , filterMode);
   }
 
-  filterBy(filterTerm) {
+  filterBy(filterTerm , filterMode) {
     let filterFunction;
-    switch (this.filterMode) {
-      case "GENRE": filterFunction = (allContents: Array<Content>, filterValue) => {
+    switch (FilterTypeMapping[filterMode]) {
+      case FilterType.Genre: filterFunction = (allContents: Array<Content>, filterValue) => {
         return allContents.filter(content => this.checkList(content.genres, filterTerm))
       }
         break;
-      case "LANGUAGE": filterFunction = (allContents: Array<Content>, filterValue) => {
+      case FilterType.Language: filterFunction = (allContents: Array<Content>, filterValue) => {
         return allContents.filter(content => content.language.toUpperCase() === filterValue.toUpperCase())
       }
         break;
-      case "NONE": filterFunction = (allContents, filterValue) => allContents;
+      case FilterType.None: filterFunction = (allContents, filterValue) => allContents;
     }
 
     let filterResult = filterFunction(this.allContents, filterTerm)
@@ -64,6 +70,14 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
 
   checkList(list, key) {
     return list.map(ele => ele.toUpperCase()).indexOf(key.toUpperCase()) > -1
+  }
+
+  resetFilterTerm(){
+    if(this.filterValue != "NONE"){
+      this.filterMode= FilterType.None;
+      this.filterValue="NONE"
+    }
+    this.displayContents = this.filterBy('' ,FilterType.None )
   }
 
 
