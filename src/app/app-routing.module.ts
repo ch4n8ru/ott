@@ -1,8 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LandingpageComponent } from './landingpage/landingpage.component';
 
-const routes: Routes = [{path:"home" , component:LandingpageComponent}];
+const routes: Routes = [{
+  path: 'home',
+  loadChildren: () => import('./user/user.module').then(m => m.UserModule)
+ },
+ {
+   path:"",
+   redirectTo:"home",
+   pathMatch:'full'
+ }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
