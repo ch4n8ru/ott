@@ -8,10 +8,11 @@ export interface Content{
     added:Date,
     genres: Array<string>,
     cast:Array<string>,
-    year:string
+    year:string,
+    imageUrl:string
 }
 
 export interface ContentType{
     "Movie",
-    "Series"
+    "Series" 
 }
