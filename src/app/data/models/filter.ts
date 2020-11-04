@@ -1,7 +1,7 @@
-export interface FilterBy{
+export interface FilterExpression{
     type:FilterType,
     appliedFilters?:Array<FilterType>,
-    filterName: string
+    filterName?: string
 }
 
 export enum FilterType{

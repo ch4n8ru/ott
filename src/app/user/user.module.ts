@@ -8,6 +8,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ContentCardComponent } from './content-card/content-card.component';
 import { RatingModule } from 'ng-starrating';
 import { FormsModule } from '@angular/forms';
+import { CoreDataModule } from '../data/data.module';
 
 
 
@@ -23,7 +24,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     UserRoutingModule,
     RatingModule,
-    FormsModule
+    FormsModule,
   ],
 })
 export class UserModule { }

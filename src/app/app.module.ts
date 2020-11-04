@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserModule } from './user/user.module';
+import { HttpClientModule } from '@angular/common/http';
+import { CoreDataModule } from './data/data.module';
+
 
 
 @NgModule({
@@ -13,7 +16,9 @@ import { UserModule } from './user/user.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    UserModule
+    UserModule,
+    HttpClientModule,
+    CoreDataModule
   ],
   providers: [],
   bootstrap: [AppComponent]

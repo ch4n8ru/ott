@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { StarRatingComponent } from 'ng-starrating';
-import { Content } from 'src/app/models/content';
+import { Content } from 'src/app/data/models/content';
 
 @Component({
   selector: 'app-content-card',
