@@ -1,0 +1,110 @@
+<div class="browse-content-container">
+    <section class="home-topbar">
+        <div class="container-fluid h-100 ">
+            <div class="row">
+                <div class="col-lg-5">
+                    <span class="content-breadcrumb">Home</span>
+                </div>
+                <div class="d-flex col-lg-7">
+                    <div class="d-flex filter-container col-lg-4">
+                        <select class="select-custom" [(ngModel)]="filterMode" (ngModelChange)="resetFilterTerm()"  name="filter-mode" id="">
+                            <option [ngValue]="0" >Filter By</option>
+                            <ng-container *ngFor="let field of filterFields">
+                                <option [value]="field.type">{{field.filterName}}</option>
+                            </ng-container>
+                        </select>
+                        <select [(ngModel)] = "filterValue" (ngModelChange)="onFilterChange($event)" class="select-custom" name="filterValue" id="">
+                            <option value="NONE" selected>Select One</option>
+                            <ng-container *ngFor="let filterVal of filterMap[filterMode]">
+                                <option [value]="filterVal">{{filterVal}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                    
+                    <div class="d-flex sort-container col-lg-4">
+                        <select class="select-custom" [(ngModel)]="sortMode" (ngModelChange)="onSortChange($event)"  name="sort-mode" id="">
+                            <option value="NONE" selected>Sort By</option>
+                            <ng-container *ngFor="let field of sortFields">
+                                <option [value]="field">{{field}}</option>
+                            </ng-container>
+                        </select>
+                        <select [(ngModel)] = "sortType" (ngModelChange)="onSortChange($event)"  class="select-custom" name="filterValue" id="">
+                            <option value="NONE" selected>Select</option>
+                            <ng-container *ngFor="let sortType of availableSortTypes">
+                                <option [value]="sortType">{{sortType}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                    <div class="search-container col-lg-4">
+                        saldigu
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container-fluid content-card-container">
+        <div class="row content-card-display">
+        <ng-container *ngFor ="let content of displayContents">
+            <div class="col-lg-6 col-xl-3 col-md-6 card-container">
+                <app-content-card [content]= content></app-content-card>
+            </div>
+        </ng-container>
+    </div>
+    </section>
+</div>
+
+
+
+
+
+<!-- <div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div> <div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div>
+<div class="col-lg-6 col-xl-3 col-md-6 card-container">
+    <app-content-card></app-content-card>
+</div> -->

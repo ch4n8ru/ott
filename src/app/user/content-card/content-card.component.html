@@ -1,0 +1,12 @@
+<div class="card">
+    <img class="card-img-top" src="assets/images/movie2.jpg" alt="Card image cap">
+    <div class="overlay">
+        <p class="text content-title">{{content.title}}</p>
+        <p class="text content-genre">{{formatGenre(content.genres)}}</p>
+        <p class="text content-language">{{content.language}}</p>
+        <star-rating [value]="content.rating" [totalstars]="5" checkedcolor="yellow" 
+            uncheckedcolor="gray" size="24px" readonly="false" 
+            (rate)="onRate($event)"></star-rating>
+        <span class="text content-year">{{content.duration}}</span>
+    </div>
+</div>

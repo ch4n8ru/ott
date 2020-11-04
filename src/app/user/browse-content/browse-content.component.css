@@ -1,0 +1,44 @@
+.home-topbar{
+    height: 30% ;
+    min-height: 200px;
+    background-color: #212529;
+}
+
+.home-topbar .container-fluid{
+    min-height: inherit;
+}
+
+.home-topbar .container-fluid .row{
+    min-height: inherit;
+    align-items: center;
+}
+
+.content-breadcrumb{
+    color:white;
+}
+
+.select-custom{
+    min-width:50%;
+    height: 3em;
+}
+
+.browse-content-container{
+    min-height: 100vh;
+    height: 100%;
+}
+
+.content-card-container{
+    margin-top: 20px;
+    height: 70%;
+
+}
+
+.card-container{
+    height: 20em;
+    /* padding: 0; */
+    /* margin: 25px; */
+    margin-bottom: 40px;
+    min-width: 270px;
+    display:flex;
+    justify-content: center;
+}
