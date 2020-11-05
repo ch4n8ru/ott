@@ -24,7 +24,8 @@ export enum SortOrder{
 }
 
 export const SortOrderMap = {
-    "0":SortOrder.ASCENDING,
-    "1":SortOrder.DESCENDING
+    "0":SortOrder.None,
+    "1":SortOrder.ASCENDING,
+    "2":SortOrder.DESCENDING
 }
 

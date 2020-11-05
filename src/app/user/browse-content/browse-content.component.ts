@@ -22,7 +22,7 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
   sortBy: string = "NONE";
   sortOrder: SortOrder = SortOrder.None
   sortFields: Array<string>;
-  availableSortOrders: Array<Sort>;
+  availableSortOrders;
 
 
   constructor(injector: Injector) {
@@ -36,7 +36,7 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
     this.filterMap[FilterType.Language] = ["TAMIL", "ENGLISH", "HINDI"]
 
     this.sortFields = ["RATING", "ADDED"];
-    this.availableSortOrders = [SortOrder.ASCENDING , SortOrder.DESCENDING]
+    this.availableSortOrders = [{order:SortOrder.ASCENDING , name: "ASCENDING"} ,{order:SortOrder.DESCENDING , name: "DESCENDING"}]
 
   }
 
@@ -77,8 +77,10 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
 
 
   onSortChange($event) {
-    let sortExpression = new SortExpression(this.sortOrder , this.sortBy);
-    this.store.dispatch(new SortContent(sortExpression));
+    if(!(this.sortBy === "NONE")){
+      let sortExpression = new SortExpression(this.sortOrder , this.sortBy);
+      this.store.dispatch(new SortContent(sortExpression));
+    }
     
     // this.displayContents = sortedResult;
   }

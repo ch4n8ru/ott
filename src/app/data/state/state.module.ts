@@ -6,6 +6,7 @@ import { NxModule } from '@nrwl/nx';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers } from '.';
 import { ContentEffects } from './content/content.effects';
+import { AuthEffects } from './auth/auth.effects';
 
 
 
@@ -19,7 +20,8 @@ import { ContentEffects } from './content/content.effects';
     NxModule.forRoot(),
     
     EffectsModule.forRoot([
-      ContentEffects
+      AuthEffects,
+      ContentEffects,
     ])
   ]
 })

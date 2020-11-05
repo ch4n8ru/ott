@@ -15,4 +15,8 @@ export class MockapiService {
   getAllContents() {
     return this.httpClient.get(this.gatewayUrl + '/availableContent' , {observe:'response'})
   }
+
+  updateContent( content : Content){
+      return this.httpClient.put(this.gatewayUrl + '/availableContent/'+`${content.contentId}` , content ,{observe:'response'})
+  }
 }

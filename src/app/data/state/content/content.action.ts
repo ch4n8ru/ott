@@ -7,7 +7,9 @@ export enum ContentActionTypes{
     LoadContents = "[Content] Load",
     ContentsLoaded = "[Content] Loaded",
     FilterContent = "[Content] Filter",
-    SortContent = "[Content] Sort"
+    SortContent = "[Content] Sort",
+    UpdateContent = "[Content] Update",
+    ContentUpdated = "[Content] Updated"
 }
 
 export class LoadContents implements Action{
@@ -18,6 +20,16 @@ export class LoadContents implements Action{
 export class ContentsLoaded implements Action{
     readonly type = ContentActionTypes.ContentsLoaded;
     constructor(public payload:Array<Content>){}
+}
+
+export class UpdateContent implements Action{
+    readonly type = ContentActionTypes.UpdateContent;
+    constructor(public payload:Content){}
+}
+
+export class ContentUpdated implements Action{
+    readonly type = ContentActionTypes.ContentUpdated;
+    constructor(public payload:Content){}
 }
 
 export class FilterContent implements Action{
@@ -34,4 +46,5 @@ export class SortContent implements Action{
 export type ContentActions = LoadContents |
 ContentsLoaded|
 FilterContent|
-SortContent
+SortContent |
+UpdateContent

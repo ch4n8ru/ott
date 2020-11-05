@@ -31,7 +31,7 @@
                         <select [(ngModel)] = "sortOrder" (ngModelChange)="onSortChange($event)"  class="select-custom" name="filterValue" id="">
                             <option [ngValue]="0" selected>Select</option>
                             <ng-container *ngFor="let sortType of availableSortOrders">
-                                <option [value]="sortType">{{sortType}}</option>
+                                <option [value]="sortType.order">{{sortType.name}}</option>
                             </ng-container>
                         </select>
                     </div>

@@ -4,12 +4,16 @@ import {
     createFeatureSelector,
     createSelector,
   } from '@ngrx/store';
+import { AuthState } from '../models/auth';
+import { authReducer } from './auth/auth.reducer';
 
 export interface AppState {
-    Content : ContentState
+    Auth: AuthState,
+    Content : ContentState,
 }
 
 export const reducers : ActionReducerMap<AppState> = {
+    Auth:authReducer,
     Content : contentReducer
 }
 

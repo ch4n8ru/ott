@@ -1,0 +1,19 @@
+.login-container{
+    height: 100vh;
+}
+
+.form-container{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.form-elements{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+label{
+    color: white;
+}
