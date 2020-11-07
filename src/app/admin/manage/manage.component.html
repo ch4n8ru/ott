@@ -1,43 +1,55 @@
 <section class="container-fluid manage-content-container">
-    <div class="row">
-        <div class="col-md-6">
-            <form [formGroup]="contentForm">
-                <div class="form-elements">
-                    <label>
-                        title
-                        <input type="text" formControlName="title">
-                    </label>
-
-                    <label>
-                        type:
-                        <input type="text" formControlName="type">
-                    </label>
-
-                    <label>
-                        language:
-                        <input type="text" formControlName="language">
-                    </label>
-
-                    <label>
-                        added:
-                        <input type="text" formControlName="added">
-                    </label>
-
-                    <label>
-                        genres:
-                        <input type="text" formControlName="genres">
-                    </label>
-
-                    <label>
-                        cast:
-                        <input type="text" formControlName="cast">
-                    </label>
-                    <label>
-                        year:
-                        <input type="text" formControlName="year">
-                    </label>
+    <div class="row manage-content-row">
+        <div class="col-md-6 data-input">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2 class="text">Upload new Content</h2>
                 </div>
-            </form>
+                <form [formGroup]="contentForm">
+                    <div class="form-elements">
+                        <div class="form-element">
+                            <label>
+                                title
+                            </label>
+                            <input type="text" formControlName="title">
+                        </div>
+                        <div class="form-element">
+
+                            <label>
+                                type:
+                            </label>
+                            <input type="text" formControlName="type">
+                        </div>
+                        <div class="form-element">
+
+                            <label>
+                                language:
+                            </label>
+                            <input type="text" formControlName="language">
+                        </div>
+
+                        <div class="form-element">
+
+                            <label>
+                                genres:
+                            </label>
+                            <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems"  [ngModelOptions]="{standalone: true}"
+                            [settings]="dropdownSettings" 
+                            (onSelect)="onItemSelect($event)" 
+                            (onDeSelect)="OnItemDeSelect($event)"
+                            (onSelectAll)="onSelectAll($event)"
+                            (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>                        </div>
+                        <div class="form-element">
+
+                            <label>
+                                cast:
+                            </label>
+                            <input type="text" formControlName="cast">
+                        </div>
+
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="col-md-6">
 
