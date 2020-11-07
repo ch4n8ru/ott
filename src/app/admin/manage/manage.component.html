@@ -5,7 +5,7 @@
                 <div class="form-header">
                     <h2 class="text">Upload new Content</h2>
                 </div>
-                <form [formGroup]="contentForm">
+                <form [formGroup]="contentForm" (ngSubmit) = submitContentForm()>
                     <div class="form-elements">
                         <div class="form-element">
                             <label>
@@ -14,14 +14,12 @@
                             <input type="text" formControlName="title">
                         </div>
                         <div class="form-element">
-
                             <label>
-                                type:
+                                year:
                             </label>
-                            <input type="text" formControlName="type">
+                            <input type="text" formControlName="year">
                         </div>
                         <div class="form-element">
-
                             <label>
                                 language:
                             </label>
@@ -29,30 +27,42 @@
                         </div>
 
                         <div class="form-element">
-
                             <label>
                                 genres:
                             </label>
-                            <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems"  [ngModelOptions]="{standalone: true}"
-                            [settings]="dropdownSettings" 
-                            (onSelect)="onItemSelect($event)" 
-                            (onDeSelect)="OnItemDeSelect($event)"
-                            (onSelectAll)="onSelectAll($event)"
-                            (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>                        </div>
+                            <angular2-multiselect [data]="availableGenres" [(ngModel)]="selectedGenres"
+                             [settings]="genreDropdownSettings" formControlName="genres" (onAddFilterNewItem) = "addNewGenre($event)">
+                            </angular2-multiselect>
+                        </div>
                         <div class="form-element">
 
                             <label>
                                 cast:
                             </label>
-                            <input type="text" formControlName="cast">
+                            <angular2-multiselect [data]="availableCast" [(ngModel)]="selectedCast"
+                             [settings]="castDropDownSettings" formControlName="cast" (onAddFilterNewItem) = "addNewCast($event)">
+                            </angular2-multiselect>
                         </div>
+
+                        <div class="image-upload form-element">
+                            <input (input)="uploadFileToServer($event,setDataUrl)" type="file" name="Upload the content" id="">
+                        </div>
+
+                        <div class="form-element">
+                            <button class="btn btn-primary" [disabled]="!contentForm.valid" type="submit">Submit</button>
+                        </div>
+
+                        
 
                     </div>
                 </form>
             </div>
         </div>
-        <div class="col-md-6">
-
+        <div class="col-md-6 image-section">
+            
+            <div class="image-preview">
+                <img [src]="imageUrl" alt="" srcset="">
+            </div>
         </div>
     </div>
 </section>

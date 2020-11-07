@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Content } from './models/content';
 import { HttpClient } from '@angular/common/http';
+import { StorageAPIService } from '../storage-api.service';
 
 
 @Injectable({
@@ -8,15 +9,19 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MockapiService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient , private storageAPI : StorageAPIService) { }
 
   gatewayUrl = "http://localhost:3000"
 
   getAllContents() {
-    return this.httpClient.get(this.gatewayUrl + '/availableContent' , {observe:'response'})
+    return this.storageAPI.getAllContents()
   }
 
   updateContent( content : Content){
       return this.httpClient.put(this.gatewayUrl + '/availableContent/'+`${content.contentId}` , content ,{observe:'response'})
+  }
+
+  addNewContent(newContent:Content){
+    return this.storageAPI.addNewContent(newContent)
   }
 }

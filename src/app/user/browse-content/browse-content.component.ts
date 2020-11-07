@@ -4,8 +4,9 @@ import { FilterExpression, FilterExpressionType, FilterType, FilterTypeMapping }
 import { ContentState } from 'src/app/data/state/content/content.reducer';
 import { HomeComponent } from '../home/home.component';
 import { select, Store } from '@ngrx/store';
-import { FilterContent, LoadContents, SortContent } from 'src/app/data/state/content/content.action';
+import { FilterContent, LoadContents, LoadUserContent, SortContent, UserContentLoaded } from 'src/app/data/state/content/content.action';
 import { SortExpression, SortOrder } from 'src/app/data/models/sort';
+import { AppState } from 'src/app/data/state';
 
 
 @Component({
@@ -42,7 +43,9 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.store.dispatch(new LoadContents);
+    let authUser ;
+     this.store.select((state:AppState) => state.Auth.user).subscribe(authu => authUser = authu)
+    this.store.dispatch(new UserContentLoaded(authUser));
   }
 
 

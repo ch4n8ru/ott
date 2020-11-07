@@ -29,7 +29,7 @@ export const selectAllContentEntities = selectEntities;
 export function contentReducer(state: ContentState = contentInitialState, action): ContentState {
   switch (action.type) {
     case ContentActionTypes.ContentsLoaded:
-      return handleNewContentLoaded(contentAdapter.addMany(action.payload, state), action)
+      return contentAdapter.addMany(action.payload, state)
 
     case ContentActionTypes.FilterContent:
       return filterDisplayContent(state, action)
@@ -37,19 +37,38 @@ export function contentReducer(state: ContentState = contentInitialState, action
     case ContentActionTypes.SortContent:
       return sortDisplayContent(state, action)
     case ContentActionTypes.ContentUpdated:
-      return handleNewContentLoaded(contentAdapter.updateOne(action.payload, state) , action)
-
+      return handleContentUpdated(contentAdapter.updateOne(action.payload, state) , action)
+    case ContentActionTypes.UserContentLoaded:
+      return handleUserContentLoaded(state , action)
     default: return state
   }
 }
 
-function handleNewContentLoaded(state: ContentState, action): ContentState {
+function handleContentUpdated(state: ContentState, action): ContentState {
+  // const newState = { ...state }
+
+  // const allContentEntities = selectAllContentEntities(state);
+  // let displayContent = [];
+  // Object.keys(allContentEntities).forEach(key => {
+  //   displayContent.push(allContentEntities[key])
+  // })
+
+  // newState.displayContent = displayContent;
+  return state;
+}
+
+function handleUserContentLoaded(state: ContentState, action):ContentState{
   const newState = { ...state }
 
   const allContentEntities = selectAllContentEntities(state);
   let displayContent = [];
+  let userContent = action.payload.userContent;
   Object.keys(allContentEntities).forEach(key => {
-    displayContent.push(allContentEntities[key])
+    let content = {...allContentEntities[key] }
+    if(userContent && userContent[key]){
+      Object.assign(content, userContent[key])
+    }
+    displayContent.push(content)
   })
 
   newState.displayContent = displayContent;

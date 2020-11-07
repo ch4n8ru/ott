@@ -5,6 +5,8 @@ import { SortExpressionType } from '../../models/sort';
 
 export enum ContentActionTypes{
     LoadContents = "[Content] Load",
+    LoadUserContent = "[Content] User Load",
+    UserContentLoaded = "[Content] User Loaded",
     ContentsLoaded = "[Content] Loaded",
     FilterContent = "[Content] Filter",
     SortContent = "[Content] Sort",
@@ -17,9 +19,19 @@ export class LoadContents implements Action{
     constructor(){}
 }
 
+export class LoadUserContent implements Action{
+    readonly type = ContentActionTypes.LoadUserContent;
+    constructor(public payload:any){}
+}
+
 export class ContentsLoaded implements Action{
     readonly type = ContentActionTypes.ContentsLoaded;
-    constructor(public payload:Array<Content>){}
+    constructor(public payload:any){}
+}
+
+export class UserContentLoaded implements Action{
+    readonly type = ContentActionTypes.UserContentLoaded;
+    constructor(public payload:any){}
 }
 
 export class UpdateContent implements Action{
@@ -47,4 +59,6 @@ export type ContentActions = LoadContents |
 ContentsLoaded|
 FilterContent|
 SortContent |
-UpdateContent
+UpdateContent |
+LoadUserContent |
+UserContentLoaded
