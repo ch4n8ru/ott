@@ -5,7 +5,7 @@ export interface  AuthState{
     userId:string,
     authToken?:string,
     rights:UserRights,
-    user:User
+    user:any
 }
 
 export enum UserRights{

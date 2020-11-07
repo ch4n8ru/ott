@@ -10,9 +10,17 @@ export const authInitialState:AuthState = {
     isLoggedIn:false
 }
 
+function getAuthInitialState():AuthState{
+    let authStatus = localStorage.getItem("AUTH");
+    if(authStatus){
+        return JSON.parse(authStatus)
+    }
+    return authInitialState
+}
 
 
-export function authReducer(state:AuthState = authInitialState , action):AuthState{
+
+export function authReducer(state:AuthState = getAuthInitialState() , action):AuthState{
     switch(action.type){
        case AuthActionTypes.LoginSuccess: return handleLogin(state , action)
        case AuthActionTypes.LoginFailure : return state
@@ -22,7 +30,12 @@ export function authReducer(state:AuthState = authInitialState , action):AuthSta
 }
 
 
-function handleLogin(state , action){
-    console.log(action)
-    return state
+function handleLogin(state:AuthState , action){
+    console.log(action);
+    const newState = {...state}
+    newState.user = action.payload.validUser;
+    newState.userId = newState.user.userId;
+    newState.isLoggedIn = true;
+    localStorage.setItem("AUTH" , JSON.stringify(newState))
+    return newState
 }
