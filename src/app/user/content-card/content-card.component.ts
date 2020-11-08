@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StarRatingComponent } from 'ng-starrating';
 import { Content } from 'src/app/data/models/content';
@@ -12,6 +12,7 @@ import { UpdateContent } from 'src/app/data/state/content/content.action';
 export class ContentCardComponent implements OnInit {
 
   @Input() content: Content;
+  @Output() updated = new EventEmitter();
   constructor(private store:Store) { }
 
   ngOnInit(): void {
@@ -26,11 +27,11 @@ export class ContentCardComponent implements OnInit {
     let updatedContent = {...this.content}
     updatedContent.rating = newRating;
     console.log(updatedContent)
-    this.store.dispatch(new UpdateContent(updatedContent));
+    this.updated.emit(updatedContent)
   }
 
   formatGenre(genre : Array<string>){
-
+    return this.content.genres.join(',')
   }
 
 }

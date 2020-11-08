@@ -8,20 +8,19 @@ import { SetRedirectURL } from '../data/state/auth/auth.action';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate {
+export class PermguardService implements CanActivate {
 
-  constructor(private store: Store, public router: Router) { }
+  constructor(private store: Store ,public router: Router) { }
 
-  canActivate(route: ActivatedRouteSnapshot, routestate: RouterStateSnapshot): boolean {
+  canActivate(route: ActivatedRouteSnapshot, routestate: RouterStateSnapshot):boolean {
     let userRight: UserRights;
-    this.store.select((appState: AppState) => appState.Auth.user).subscribe(user => userRight = user ? user.rights : null)
-    if (userRight == UserRights.VIEW) {
-      return true
-    }
-    
+    this.store.select( (appState:AppState) => appState.Auth.user).subscribe(user => userRight = user.rights )
+    if(userRight == UserRights.FULL)
+   { 
+     return true
+        }
     this.store.dispatch(new SetRedirectURL(routestate.url));
     this.router.navigate(['login']);
     return false
   }
 }
-

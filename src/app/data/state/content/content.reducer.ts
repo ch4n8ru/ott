@@ -2,12 +2,13 @@ import { act } from '@ngrx/effects';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Content } from '../../models/content';
 import { FilterExpressionType, FilterType, FilterTypeMapping } from '../../models/filter';
-import { SortExpression, SortOrder, SortOrderMap } from '../../models/sort';
+import { SortByDataTypeMap, SortExpression, SortOrder, SortOrderMap } from '../../models/sort';
 import { ContentActionTypes } from './content.action';
 
 
 export interface ContentState extends EntityState<Content> {
   displayContent: null | Array<Content>;
+  userContent:null | Array<any>
 }
 
 export const contentAdapter: EntityAdapter<Content> = createEntityAdapter<Content>({
@@ -17,6 +18,7 @@ export const contentAdapter: EntityAdapter<Content> = createEntityAdapter<Conten
 
 export const contentInitialState: ContentState = contentAdapter.getInitialState({
   displayContent: [],
+  userContent: []
 })
 
 
@@ -29,7 +31,7 @@ export const selectAllContentEntities = selectEntities;
 export function contentReducer(state: ContentState = contentInitialState, action): ContentState {
   switch (action.type) {
     case ContentActionTypes.ContentsLoaded:
-      return handleNewContentLoaded(contentAdapter.addMany(action.payload, state), action)
+      return contentAdapter.addMany(action.payload, state)
 
     case ContentActionTypes.FilterContent:
       return filterDisplayContent(state, action)
@@ -37,19 +39,35 @@ export function contentReducer(state: ContentState = contentInitialState, action
     case ContentActionTypes.SortContent:
       return sortDisplayContent(state, action)
     case ContentActionTypes.ContentUpdated:
-      return handleNewContentLoaded(contentAdapter.updateOne(action.payload, state) , action)
-
+      return handleContentUpdated(state, action)
+    case ContentActionTypes.UserContentLoaded:
+      return handleUserContentLoaded(state , action)
     default: return state
   }
 }
 
-function handleNewContentLoaded(state: ContentState, action): ContentState {
+function handleContentUpdated(state: ContentState, action): ContentState {
   const newState = { ...state }
+  const updatedContent = action.payload.updated;
+  const userContent = {...newState.userContent}
+  userContent[updatedContent.contentId] = updatedContent;
+  newState.userContent = userContent;
+  return newState;
+}
+
+function handleUserContentLoaded(state: ContentState, action):ContentState{
+  const newState = { ...state }
+  let userContent = action.payload;
+  newState.userContent = userContent;
 
   const allContentEntities = selectAllContentEntities(state);
   let displayContent = [];
   Object.keys(allContentEntities).forEach(key => {
-    displayContent.push(allContentEntities[key])
+    let content = {...allContentEntities[key] }
+    if(userContent && userContent[key]){
+      Object.assign(content, userContent[key])
+    }
+    displayContent.push(content)
   })
 
   newState.displayContent = displayContent;
@@ -97,14 +115,15 @@ function sortDisplayContent(state: ContentState, action): ContentState {
   const sortExpression: SortExpression = action.payload;
   const sortOrder = sortExpression.order;
   const sortByField = sortExpression.sortBy;
+  const sortByFieldDataType = SortByDataTypeMap[sortByField]
   let sortedDisplayContents = [];
   const newState = { ...state };
   const contentsToSort = [...newState.displayContent];
 
   switch (SortOrderMap[sortOrder]) {
-    case SortOrder.ASCENDING: sortedDisplayContents = sortByAscending(contentsToSort, sortByField)
+    case SortOrder.ASCENDING: sortedDisplayContents = sortByAscending(contentsToSort, sortByField , sortByFieldDataType)
       break;
-    case SortOrder.DESCENDING: sortedDisplayContents = sortBydescending(contentsToSort, sortByField)
+    case SortOrder.DESCENDING: sortedDisplayContents = sortBydescending(contentsToSort, sortByField , sortByFieldDataType)
       break;
     default:
       return newState;
@@ -115,7 +134,8 @@ function sortDisplayContent(state: ContentState, action): ContentState {
 }
 
 
-function sortByAscending(allContents: Array<Content>, sortByField) {
+function sortByAscending(allContents: Array<Content>, sortByField , dataType = "string") {
+
   sortByField = sortByField.toLowerCase();
   let compareFunction = function compare(a: Content, b: Content) {
     if (a[sortByField] < b[sortByField]) {
@@ -126,11 +146,14 @@ function sortByAscending(allContents: Array<Content>, sortByField) {
     }
     return 0;
   }
-  allContents.sort(compareFunction)
-  return allContents
+
+  let dateCompareFunction = ((a, b) => new Date(a[sortByField]).getTime() - new Date(b[sortByField]).getTime())
+  if(dataType == "date")
+    return allContents.sort(dateCompareFunction)
+  return allContents.sort(compareFunction)
 }
 
-function sortBydescending(allContents: Array<Content>, sortByField) {
+function sortBydescending(allContents: Array<Content>, sortByField , dataType = "string") {
   sortByField = sortByField.toLowerCase();
   let compareFunction = function compare(a: Content, b: Content) {
     if (a[sortByField] < b[sortByField]) {
@@ -141,6 +164,10 @@ function sortBydescending(allContents: Array<Content>, sortByField) {
     }
     return 0;
   }
+  let dateCompareFunction = ((a, b) => new Date(b[sortByField]).getTime() - new Date(a[sortByField]).getTime())
+
+  if(dataType == "date")
+    return allContents.sort(dateCompareFunction)
   return allContents.sort(compareFunction)
 }
 
@@ -149,4 +176,6 @@ function handleUpdateContent() {
 
 }
 
+
+// sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 

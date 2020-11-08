@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { StorageAPIService } from '../storage-api.service';
 import { UserRights } from './models/auth';
 import { User } from './models/user';
 
@@ -11,7 +12,12 @@ export class MockauthService {
 
   gatewayUrl = "http://localhost:3000"
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient , private storageApi:StorageAPIService) {
+    let allUsers = this.storageApi.getAllUsers();
+    if(allUsers){
+      this.users = Object.assign(this.users , allUsers);
+    }
+   }
   users  = {
     "1" : {
           userId : "1",
@@ -19,14 +25,7 @@ export class MockauthService {
           password:"admin1234",
           email:"admin@abc.com",
           rights:UserRights.FULL
-    },
-    "2" : {
-      userId : "2",
-      userName:"John",
-      password:"1234",
-      email:"John@abc.com",
-      rights:UserRights.VIEW
-}
+    }
   }
 
   login(userDetails){
@@ -37,6 +36,10 @@ export class MockauthService {
 
     })
     return loginObservable;
+  }
+
+  logOut(){
+    return this.storageApi.logout()
   }
 
   validateUser(userToAuth){

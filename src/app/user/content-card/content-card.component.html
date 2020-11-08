@@ -1,5 +1,5 @@
 <div class="card">
-    <img class="card-img-top" src="assets/images/movie2.jpg" alt="Card image cap">
+    <img class="card-img-top" [src]="content.imageUrl" alt="Card image cap">
     <div class="overlay">
         <p class="text content-title">{{content.title}}</p>
         <p class="text content-genre">{{formatGenre(content.genres)}}</p>
