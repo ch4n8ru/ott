@@ -1,3 +1,6 @@
+/**
+ *Shape for Content
+ */
 export interface Content{
     contentId: string,
     title:string,
@@ -12,6 +15,10 @@ export interface Content{
     imageUrl:string
 }
 
+
+/**
+ * Content type (TODO)
+ */
 export interface ContentType{
     "Movie",
     "Series" 

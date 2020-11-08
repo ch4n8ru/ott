@@ -8,17 +8,15 @@ const routes: Routes = [
     {
         path: "",
         component: HomeComponent,
-        children: [{
-            path: "curated",
-            component: CuratedComponent,
-        },
+        children: [
+
         {
             path: "browse",
             component: BrowseContentComponent,
         },
         {
             path: "",
-            redirectTo:"/home/curated",
+            redirectTo:"/home/browse",
             pathMatch:'full'
         },
     ]

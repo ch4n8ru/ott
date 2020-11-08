@@ -11,7 +11,11 @@ import { SetRedirectURL } from '../data/state/auth/auth.action';
 export class PermguardService implements CanActivate {
 
   constructor(private store: Store ,public router: Router) { }
-
+/**
+ * Protects the admin route by checking the access rights
+ * @param route 
+ * @param routestate 
+ */
   canActivate(route: ActivatedRouteSnapshot, routestate: RouterStateSnapshot):boolean {
     let userRight: UserRights;
     this.store.select( (appState:AppState) => appState.Auth.user).subscribe(user => userRight = user.rights )

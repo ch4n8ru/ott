@@ -58,7 +58,7 @@ form{
 
 .form-element input[type = "text"]{
     height: 37px;
-    border-radius: 1px;
+    border-radius: 2px;
     border: 1px #b6b6b6 solid;
     min-width: 14em;
 }

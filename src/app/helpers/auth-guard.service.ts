@@ -12,6 +12,11 @@ export class AuthGuardService implements CanActivate {
 
   constructor(private store: Store, public router: Router) { }
 
+  /**
+   * Protects accessing the user route without authentication
+   * @param route 
+   * @param routestate 
+   */
   canActivate(route: ActivatedRouteSnapshot, routestate: RouterStateSnapshot): boolean {
     let userRight: UserRights;
     this.store.select((appState: AppState) => appState.Auth.user).subscribe(user => userRight = user ? user.rights : null)

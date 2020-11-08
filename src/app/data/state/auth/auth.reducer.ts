@@ -42,6 +42,11 @@ function handleLogin(state:AuthState , action){
     return newState
 }
 
+/**
+ * Set redirect url so that after login the user is redirected 
+ * @param state 
+ * @param action 
+ */
 function setURL(state:AuthState , action):AuthState{
     const newState = {...state}
     newState.redirectUrl = action.payload

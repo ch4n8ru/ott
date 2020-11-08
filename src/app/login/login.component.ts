@@ -21,8 +21,6 @@ export class LoginComponent implements OnInit {
     password: new FormControl('' , [Validators.required]),
   });
 
-  username:string = 'John';
-  password:string = '123';
 
   onLogin(){
     this.store.dispatch(new Login(this.loginForm.value))

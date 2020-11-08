@@ -19,10 +19,6 @@ export class ContentCardComponent implements OnInit {
   }
 
   onRate($event:{oldValue:number, newValue:number, starRating:StarRatingComponent}) {
-    // alert(`Old Value:${$event.oldValue}, 
-    //   New Value: ${$event.newValue}, 
-    //   Checked Color: ${$event.starRating.checkedcolor}, 
-    //   Unchecked Color: ${$event.starRating.uncheckedcolor}`);
     const newRating = $event.newValue;
     let updatedContent = {...this.content}
     updatedContent.rating = newRating;

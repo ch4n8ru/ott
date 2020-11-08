@@ -1,19 +1,21 @@
-.login-container{
-    height: 100vh;
+.login-container {
+  height: 100vh;
+ background-color: var(--dark);
 }
 
-.form-container{
-    align-items: center;
-    display: flex;
-    justify-content: center;
+.form-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
-.form-elements{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.form-elements {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-label{
-    color: white;
+
+label {
+  color: white;
 }
