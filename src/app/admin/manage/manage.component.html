@@ -21,7 +21,7 @@
         <div class="form-header">
           <h2 class="text">Upload new Content</h2>
         </div>
-        <form [formGroup]="contentForm" (ngSubmit)=submitContentForm()>
+        <form [formGroup]="contentForm">
           <div class="form-elements">
 
             <div class="form-element">
@@ -72,7 +72,7 @@
             </div>
 
             <div class="form-element">
-              <button class="btn btn-primary" [disabled]="!contentForm.valid" type="submit">Submit</button>
+              <button class="btn btn-primary" [disabled]="!contentForm.valid" (click)="submitContentForm()" type="submit">Submit</button>
             </div>
 
           </div>

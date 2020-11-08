@@ -134,7 +134,18 @@ function sortDisplayContent(state: ContentState, action): ContentState {
   const sortByFieldDataType = SortByDataTypeMap[sortByField];
   let sortedDisplayContents = [];
   const newState = { ...state };
-  const contentsToSort = [...newState.displayContent];
+  const userContent = state.userContent;
+
+  let contentsToSort = [];
+  newState.displayContent.forEach((content) => {
+    content = { ...content };
+    if (userContent && userContent[content.contentId]) {
+      content = Object.assign(content, userContent[content.contentId]);
+    }
+    contentsToSort.push(content);
+  });
+
+  // const contentsToSort = [...newState.displayContent];
 
   switch (SortOrderMap[sortOrder]) {
     case SortOrder.ASCENDING:
@@ -172,7 +183,7 @@ function sortByAscending(
     if (a[sortByField] >= b[sortByField]) {
       return 1;
     }
-    return 0;
+    return -1;
   };
 
   let dateCompareFunction = (a, b) =>
@@ -194,7 +205,7 @@ function sortBydescending(
     if (a[sortByField] >= b[sortByField]) {
       return -1;
     }
-    return 0;
+    return -1;
   };
   let dateCompareFunction = (a, b) =>
     new Date(b[sortByField]).getTime() - new Date(a[sortByField]).getTime();
@@ -204,4 +215,3 @@ function sortBydescending(
 }
 
 function handleUpdateContent() {}
-

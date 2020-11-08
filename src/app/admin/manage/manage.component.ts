@@ -153,6 +153,13 @@ export class ManageComponent implements OnInit {
     this.storageApi.addNewGenre({
       name: event,
     });
+    this.availableGenres =
+      this.storageApi.getAvailableGenres().map((genre) => {
+        return {
+          id: genre.id,
+          itemName: genre.name,
+        };
+      }) || [];
   }
 
   addNewLanguage(language) {

@@ -21,7 +21,6 @@ export const selectDisplayContents = (state: AppState) => {
   const displayContent = state.Content.displayContent;
   const userContent = state.Content.userContent;
 
-  console.log(displayContent, userContent);
   let userDisplayContent = [];
   displayContent.forEach((content) => {
     content = { ...content };
