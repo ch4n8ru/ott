@@ -4,7 +4,7 @@ import { FilterExpression, FilterExpressionType, FilterType, FilterTypeMapping }
 import { ContentState } from 'src/app/data/state/content/content.reducer';
 import { HomeComponent } from '../home/home.component';
 import { select, Store } from '@ngrx/store';
-import { FilterContent, LoadContents, LoadUserContent, SortContent, UpdateContent, UserContentLoaded } from 'src/app/data/state/content/content.action';
+import { FilterContent, LoadContents, LoadUserContent, ResetAll, SortContent, UpdateContent, UserContentLoaded } from 'src/app/data/state/content/content.action';
 import { SortExpression, SortOrder } from 'src/app/data/models/sort';
 import { AppState } from 'src/app/data/state';
 import { MockapiService } from 'src/app/data/mockapi.service';
@@ -103,6 +103,14 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
       }
     }
     this.store.dispatch(new UpdateContent(payload));
+  }
+
+  resetAll(){
+    this.filterMode = FilterType.None;
+    this.filterValue = 'NONE';
+    this.sortBy = "NONE";
+    this.sortOrder= SortOrder.None
+    this.store.dispatch(new ResetAll)
   }
 
 }

@@ -1,5 +1,6 @@
 import { act } from '@ngrx/effects';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { Action } from 'rxjs/internal/scheduler/Action';
 import { Content } from '../../models/content';
 import {
   FilterExpressionType,
@@ -52,6 +53,8 @@ export function contentReducer(
       return handleContentUpdated(state, action);
     case ContentActionTypes.UserContentLoaded:
       return handleUserContentLoaded(state, action);
+    case ContentActionTypes.ResetAll:
+      return handleResetAll(state , action)
     default:
       return state;
   }
@@ -63,6 +66,24 @@ function handleContentUpdated(state: ContentState, action): ContentState {
   const userContent = { ...newState.userContent };
   userContent[updatedContent.contentId] = updatedContent;
   newState.userContent = userContent;
+  return newState;
+}
+
+function handleResetAll(state , action){
+  const newState = { ...state };
+  let userContent = newState.userContent;
+
+  const allContentEntities = selectAllContentEntities(state);
+  let displayContent = [];
+  Object.keys(allContentEntities).forEach((key) => {
+    let content = { ...allContentEntities[key] };
+    if (userContent && userContent[key]) {
+      Object.assign(content, userContent[key]);
+    }
+    displayContent.push(content);
+  });
+
+  newState.displayContent = displayContent;
   return newState;
 }
 

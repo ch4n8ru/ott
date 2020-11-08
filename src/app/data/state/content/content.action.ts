@@ -11,7 +11,9 @@ export enum ContentActionTypes{
     FilterContent = "[Content] Filter",
     SortContent = "[Content] Sort",
     UpdateContent = "[Content] Update",
-    ContentUpdated = "[Content] Updated"
+    ContentUpdated = "[Content] Updated",
+    ResetAll = "[Content] Reset All"
+
 }
 
 export class LoadContents implements Action{
@@ -53,6 +55,14 @@ export class SortContent implements Action{
     readonly type = ContentActionTypes.SortContent;
     constructor(public payload:SortExpressionType){}
 }
+
+
+export class ResetAll implements Action{
+    readonly type = ContentActionTypes.ResetAll;
+    constructor(){}
+}
+
+
 
 
 export type ContentActions = LoadContents |
