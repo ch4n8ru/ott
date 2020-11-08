@@ -4,7 +4,8 @@
 
 ## Running the application
 
-Run `npm run start` to start the application
+Run `npm run start` to start the application and the web documention 
+if something goes wrong with dependecies try `ng serve -o`
 
 
 ## Web Documentation
