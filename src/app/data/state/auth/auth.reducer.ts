@@ -26,6 +26,7 @@ export function authReducer(state:AuthState = getAuthInitialState() , action):Au
        case AuthActionTypes.LoginSuccess: return handleLogin(state , action)
        case AuthActionTypes.LoginFailure : return state
        case AuthActionTypes.SetRedirectURL : return setURL(state , action)
+       case AuthActionTypes.LogOutComplete : return handleLogout(state , action)
        default: return state
     }
     
@@ -42,6 +43,11 @@ function handleLogin(state:AuthState , action){
     return newState
 }
 
+/**
+ * Set redirect url so that after login the user is redirected 
+ * @param state 
+ * @param action 
+ */
 function setURL(state:AuthState , action):AuthState{
     const newState = {...state}
     newState.redirectUrl = action.payload
@@ -52,7 +58,6 @@ function handleLogout(state:AuthState , action):AuthState{
     const newState = {...state};
     newState.authToken = ''
     newState.isLoggedIn = false
-    newState.redirectUrl = ''
     newState.rights = null;
     newState.user = null;
     newState.userId = null

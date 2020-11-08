@@ -1,3 +1,6 @@
+/**
+ * Shape for Filter operation 
+ */
 export interface FilterExpressionType{
     type:FilterType,
     appliedFilters?:Array<FilterType>,
@@ -21,6 +24,10 @@ export enum FilterType{
     "Language"
 }
 
+
+/**
+ * Mappings to render in UI
+ */
 export const FilterTypeMapping = {
     "0":FilterType.None,
     "1":FilterType.Genre,

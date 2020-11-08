@@ -1,7 +1,6 @@
 .home-topbar{
     height: 30% ;
     min-height: 200px;
-    background-color: #212529;
 }
 
 .home-topbar .container-fluid{
@@ -19,8 +18,9 @@
 }
 
 .select-custom{
-    min-width:50%;
-    height: 3em;
+    min-width: 50%;
+    height: 2.5em;
+    border-radius: 3px;
 }
 
 .browse-content-container{

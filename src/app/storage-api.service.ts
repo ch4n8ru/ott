@@ -133,11 +133,11 @@ export class StorageAPIService {
     const contents = [
         {
           "contentId": "1",
-          "title": "title1",
+          "title": "I Robot",
           "duration": "2h",
           "type": 0,
           "rating": 3,
-          "language": "Hindi",
+          "language": "English",
           "added": "28/05/1998",
           "genres": [
             "crime",
@@ -153,7 +153,7 @@ export class StorageAPIService {
         },
         {
           "contentId": "2",
-          "title": "title2",
+          "title": "2.0",
           "duration": "2h",
           "type": 0,
           "rating": 3,
@@ -173,7 +173,7 @@ export class StorageAPIService {
         },
         {
           "contentId": "3",
-          "title": "title3",
+          "title": "KKK",
           "duration": "2h",
           "type": 0,
           "rating": 2,
@@ -193,10 +193,10 @@ export class StorageAPIService {
         },
         {
           "contentId": "4",
-          "title": "title4",
+          "title": "Oh My Kadavule",
           "type": 0,
           "rating": 3,
-          "language": "English",
+          "language": "Tamil",
           "added": "20/05/1998",
           "genres": [
             "romcom"
@@ -207,15 +207,15 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "assets/images/movie2.jpg"
+          "imageUrl": "assets/images/movie1.jpg"
         },
         {
           "contentId": "5",
-          "title": "title5",
+          "title": "Terminator",
           "duration": "2h",
           "type": 0,
           "rating": 3,
-          "language": "Hindi",
+          "language": "English",
           "added": "28/06/1998",
           "genres": [
             "action"
@@ -226,10 +226,10 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "assets/images/movie2.jpg"
+          "imageUrl": "assets/images/movie5.jpg"
         },
         {
-          "contentId": "6",
+          "contentId": "3 idiots",
           "title": "title6",
           "duration": "2h",
           "type": 0,
@@ -246,11 +246,11 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "assets/images/movie2.jpg"
+          "imageUrl": "assets/images/movie6.jpg"
         },
         {
           "contentId": "7",
-          "title": "title7",
+          "title": "Avengers",
           "duration": "2h",
           "type": 0,
           "rating": 2,
@@ -266,10 +266,10 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "assets/images/movie2.jpg"
+          "imageUrl": "assets/images/movie7.jpg"
         },
         {
-          "contentId": "8",
+          "contentId": "Enthiran",
           "title": "title8",
           "duration": "2h",
           "type": 0,
@@ -286,7 +286,7 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "assets/images/movie2.jpg"
+          "imageUrl": "assets/images/movie8.jpg"
         }
       ];
 

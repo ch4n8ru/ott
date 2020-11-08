@@ -19,7 +19,6 @@ export class HomeComponent implements OnInit {
     this.displayContents = []
     this.store.dispatch(new LoadContents)
     this.store.select(selectDisplayContents).subscribe(display => {
-      // console.log(display)
       this.displayContents = display
     })
   }
