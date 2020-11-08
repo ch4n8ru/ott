@@ -1,27 +1,40 @@
 # Ott
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
+# A Poc for online OTT platform using localstorage as backend
 
-## Development server
+## Running the application
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Web Documentation
+Run `npm run docs` and Navigate to `http://localhost:8080/` a web based documentation with details about the app and components can be viewed
 
-## Build
+## Usage
+There are two modules\
+1.Admin  
+2.User
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Both modules have separate routes  
 
-## Running unit tests
+To log in to admin account visit `http://localhost:4200/admin`  
+Admin credentials:  
+username: admin  
+password: admin1234  
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+To log in to user account visit `http://localhost:4200/home`  
+user credentials:  
+username: John  
+password: 1234  
+Both routes have route guards and will ask for authentication if not done already
 
-## Running end-to-end tests
+Eventhough both modules have different routes , login page is common therefore even if a user is logged in but does not have admin privileges tries to navigate to `admin` routes , a permission error will be thrown.  
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+If it occurs please verify if you are on the correct route.
 
-## Further help
+## State Management:
+uses ngrx store for state management and to make the application reactive
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Usage with server
+Ready to use with a REST api with minimal changes as it already uses observable based responses
+

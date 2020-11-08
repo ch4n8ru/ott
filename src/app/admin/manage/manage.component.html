@@ -1,0 +1,88 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">OTT Demo</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li>
+        <button class="btn btn-primary" (click)="logout()">Logout</button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<section class="container-fluid manage-content-container">
+  <div class="row manage-content-row">
+    <div class="col-md-6 data-input">
+      <div class="form-container">
+        <div class="form-header">
+          <h2 class="text">Upload new Content</h2>
+        </div>
+        <form [formGroup]="contentForm">
+          <div class="form-elements">
+
+            <div class="form-element">
+              <label>
+                Title
+              </label>
+              <input type="text" formControlName="title" placeholder="Title">
+            </div>
+
+            <div class="form-element">
+              <label>
+                Year Released:
+              </label>
+              <input type="text" formControlName="year" placeholder="Year">
+            </div>
+
+            <div class="form-element">
+              <label>
+                Language:
+              </label>
+              <input type="text" formControlName="language" placeholder="Language">
+            </div>
+
+            <div class="form-element">
+              <label>
+                Genres:
+              </label>
+              <angular2-multiselect [data]="availableGenres" [(ngModel)]="selectedGenres"
+                [settings]="genreDropdownSettings" formControlName="genres" (onAddFilterNewItem)="addNewGenre($event)">
+              </angular2-multiselect>
+            </div>
+            <div class="form-element">
+
+              <label>
+                Cast:
+              </label>
+              <angular2-multiselect [data]="availableCast" [(ngModel)]="selectedCast" [settings]="castDropDownSettings"
+                formControlName="cast" (onAddFilterNewItem)="addNewCast($event)">
+              </angular2-multiselect>
+            </div>
+
+            <div class="form-element">
+              <label>
+                Image Url:
+              </label>
+              <input type="file" name="Upload the content" (input)="uploadFileToServer($event , setDataUrl)" id=""
+                formControlName="imageUrl">
+            </div>
+
+            <div class="form-element">
+              <button class="btn btn-primary" [disabled]="!contentForm.valid" (click)="submitContentForm()" type="submit">Submit</button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6 image-section">
+      <div class="image-preview">
+        <img [src]="imageUrl" alt="" srcset="">
+      </div>
+    </div>
+  </div>
+</section>
