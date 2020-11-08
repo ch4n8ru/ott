@@ -146,6 +146,12 @@ export class ManageComponent implements OnInit {
     this.storageApi.addNewCast({
       name: event,
     });
+    this.availableCast = this.storageApi.getAvailableCast().map((cast) => {
+      return {
+        id: cast.id,
+        itemName: cast.name,
+      };
+    }) || [];
   }
 
   addNewGenre(event) {

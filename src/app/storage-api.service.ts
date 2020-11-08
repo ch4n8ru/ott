@@ -118,7 +118,7 @@ export class StorageAPIService {
     let modified = this.readFromLocalStorage("availableCast")
     cast.id = modified.length + 1
     modified.push(cast)
-    this.writeToLocalStorage("availableGenres" , modified)
+    this.writeToLocalStorage("availableCast" , modified)
   }
 
   addNewLanguage(language){

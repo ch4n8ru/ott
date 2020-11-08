@@ -33,7 +33,7 @@ export class PermguardService implements CanActivate {
     let userRight: UserRights;
     this.store
       .select((appState: AppState) => appState.Auth.user)
-      .subscribe((user) => (userRight = user.rights));
+      .subscribe((user) => (userRight = user ?  user.rights : null));
     if (userRight) {
       if (userRight == UserRights.FULL) {
         return true;
