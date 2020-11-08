@@ -32,6 +32,10 @@ Eventhough both modules have different routes , login page is common therefore e
 
 If it occurs please verify if you are on the correct route.
 
+## Note about uploading images
+To store images in localstorage is is converted to base64. However local storage is limited to only 25MB.  
+For this i have added some images in src/assets/images directory. please use these images for upload
+
 ## State Management:
 uses ngrx store for state management and to make the application reactive
 
