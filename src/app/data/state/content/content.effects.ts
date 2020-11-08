@@ -22,7 +22,14 @@ export class ContentEffects {
         onError: () => { }
     })
 
-
+    @Effect()
+    loadUserContent$ = this.dataPersistence.fetch(ContentActionTypes.LoadUserContent, {
+        run: (action: LoadUserContent, state: ContentState) => {
+            return this.mockApiService.getContentsForUser(action.payload).pipe(
+                map((res: any) => new UserContentLoaded(res)))
+        },
+        onError: () => { }
+    })
 
     @Effect()
     updateContent$ = this.dataPersistence.fetch(ContentActionTypes.UpdateContent, {

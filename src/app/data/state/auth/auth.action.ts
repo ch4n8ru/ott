@@ -4,7 +4,10 @@ import { Action } from '@ngrx/store';
 export enum AuthActionTypes  {
     Login  = "[Auth] Login",
     LoginSuccess = "[Auth] Login success",
-    LoginFailure = "[Auth] Login Failed"
+    LoginFailure = "[Auth] Login Failed",
+    SetRedirectURL = "[AUTH] Set redirect Url",
+    LogOut = "[Auth] Logout",
+    LogOutComplete = "[Auth] LogOut success"
 }
 
 export class Login implements Action{
@@ -26,8 +29,31 @@ export class LoginFailure implements Action{
     }
 }
 
+export class SetRedirectURL implements Action{
+    readonly type = AuthActionTypes.SetRedirectURL
+    constructor(public payload:string){
+    }
+}
+
+export class LogOut implements Action{
+    readonly type = AuthActionTypes.LogOut
+    constructor(){
+    }
+}
+export class LogOutComplete implements Action{
+    readonly type = AuthActionTypes.LogOutComplete
+    constructor(){
+    }
+}
+
+
+
+
 
 
 export type AuthActions = Login |
 LoginSuccess|
-LoginFailure
+LoginFailure|
+SetRedirectURL|
+LogOut|
+LogOutComplete

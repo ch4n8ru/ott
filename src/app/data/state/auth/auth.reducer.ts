@@ -7,7 +7,8 @@ export const authInitialState:AuthState = {
     rights: UserRights.NONE,
     authToken:"",
     user: null,
-    isLoggedIn:false
+    isLoggedIn:false,
+    redirectUrl:''
 }
 
 function getAuthInitialState():AuthState{
@@ -24,6 +25,7 @@ export function authReducer(state:AuthState = getAuthInitialState() , action):Au
     switch(action.type){
        case AuthActionTypes.LoginSuccess: return handleLogin(state , action)
        case AuthActionTypes.LoginFailure : return state
+       case AuthActionTypes.SetRedirectURL : return setURL(state , action)
        default: return state
     }
     
@@ -40,3 +42,19 @@ function handleLogin(state:AuthState , action){
     return newState
 }
 
+function setURL(state:AuthState , action):AuthState{
+    const newState = {...state}
+    newState.redirectUrl = action.payload
+    return newState;
+}
+
+function handleLogout(state:AuthState , action):AuthState{
+    const newState = {...state};
+    newState.authToken = ''
+    newState.isLoggedIn = false
+    newState.redirectUrl = ''
+    newState.rights = null;
+    newState.user = null;
+    newState.userId = null
+    return newState
+}

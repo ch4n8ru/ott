@@ -36,7 +36,7 @@ export class UserContentLoaded implements Action{
 
 export class UpdateContent implements Action{
     readonly type = ContentActionTypes.UpdateContent;
-    constructor(public payload:Content){}
+    constructor(public payload){}
 }
 
 export class ContentUpdated implements Action{

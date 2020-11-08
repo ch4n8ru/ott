@@ -17,4 +17,18 @@ export const reducers : ActionReducerMap<AppState> = {
     Content : contentReducer
 }
 
-export const selectDisplayContents = (state:AppState) => state.Content.displayContent
+export const selectDisplayContents = (state:AppState) => {
+   const displayContent =  state.Content.displayContent
+   const userContent = state.Content.userContent;
+   
+    console.log(displayContent , userContent)
+    let userDisplayContent = []
+  displayContent.forEach(content => {
+    content = {...content};
+    if(userContent && userContent[content.contentId]){
+      content = Object.assign(content, userContent[content.contentId])
+    }
+    userDisplayContent.push(content)
+  })
+  return userDisplayContent
+}

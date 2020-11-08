@@ -1,6 +1,6 @@
 export interface SortExpressionType {
     order:SortOrder,
-    sortBy?:string
+    sortBy?:string,
 }
 
 export class SortExpression implements SortExpressionType{
@@ -21,6 +21,11 @@ export enum SortOrder{
     "None",
     "ASCENDING",
     "DESCENDING",
+}
+
+export const SortByDataTypeMap = {
+    "Rating" : "string",
+    "Added" :  "date"
 }
 
 export const SortOrderMap = {

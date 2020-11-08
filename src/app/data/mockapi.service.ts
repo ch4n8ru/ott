@@ -17,11 +17,22 @@ export class MockapiService {
     return this.storageAPI.getAllContents()
   }
 
-  updateContent( content : Content){
-      return this.httpClient.put(this.gatewayUrl + '/availableContent/'+`${content.contentId}` , content ,{observe:'response'})
+  updateContent( contentToUpdate){
+      return this.storageAPI.updateContent(contentToUpdate)
   }
 
   addNewContent(newContent:Content){
     return this.storageAPI.addNewContent(newContent)
+  }
+
+  getContentsForUser(userId){
+    return this.storageAPI.getContentForUser(userId)
+  }
+
+  getAvailableGenres(){
+    return this.storageAPI.getAvailableGenres()
+  }
+  getAvailableLanguages(){
+    return this.storageAPI.getAvailableLanguages()
   }
 }

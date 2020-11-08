@@ -13,10 +13,17 @@
           <a class="nav-link" routerLink="/home/browse" routerLinkActive="active">Link</a>
         </li>
       </ul>
+      <ul class="navbar-nav ml-auto">
+        <li>
+          <button class="btn btn-primary" (click) = "logOut()">Logout</button>
+        </li>
+      </ul>
     </div>
   </nav>
 <router-outlet></router-outlet>
 
 <footer class="home-footer d-flex">
-  <a href="http://github.com/ch4n8ru"></a>
+  <div class="d-flex align-items-center">
+  <p>Submitted by Chandra Prakash</p>
+</div>
 </footer>

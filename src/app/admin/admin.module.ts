@@ -4,6 +4,7 @@ import { ManageComponent } from './manage/manage.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -14,7 +15,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
     AdminRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    ToastrModule
   ]
 })
 export class AdminModule { }

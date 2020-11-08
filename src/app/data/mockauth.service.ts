@@ -38,6 +38,10 @@ export class MockauthService {
     return loginObservable;
   }
 
+  logOut(){
+    return this.storageApi.logout()
+  }
+
   validateUser(userToAuth){
     let validUser = Object.entries(this.users).filter(user => (user[1].userName == userToAuth.userName) && (user[1].password == userToAuth.password))
     if(validUser.length > 0) return {status: true , validUser : validUser[0][1]}

@@ -22,6 +22,23 @@ export class StorageAPIService {
     return this.readFromLocalStorage("users")
   }
 
+  logout(){
+    localStorage.removeItem('AUTH')
+    return new Observable(subscriber => {
+      subscriber.next({'status':"ok"})
+      subscriber.complete();
+    })
+  }
+
+  getContentForUser(userId){
+    const user = this.readFromLocalStorage('users')[userId]
+    return new Observable(subscriber => {
+      if(user)
+        subscriber.next(user.userContent)
+      subscriber.complete();
+    })
+  }
+
   getAllContents(){
     return new Observable(subscriber => {
       subscriber.next(this.readFromLocalStorage('availableContent'))
@@ -29,16 +46,20 @@ export class StorageAPIService {
     })
   }
 
-  updateContent(newContent:Content){
-    let availContent:Array<Content> = this.readFromLocalStorage('availableContent');
-    let oldIdx = availContent.findIndex(content => content.contentId = newContent.contentId);
-    if(oldIdx)
-      {
-        availContent[oldIdx] = newContent;
-        this.writeToLocalStorage('availableContent' , availContent);
-      }
+  updateContent(contentToUpdate){
+    const users = this.readFromLocalStorage('users');
+    const updatedContent = contentToUpdate.updatedContent
+    
+    if(users[contentToUpdate.user.userId]){
+      users[contentToUpdate.user.userId].userContent[updatedContent.contentId] = updatedContent
+      this.writeToLocalStorage('users' , users)
+      return new Observable(subs => {
+        subs.next({status:304 , updated:updatedContent})
+        subs.complete()
+      })
+    }
     return new Observable(subs => {
-      subs.next({status:"ok"})
+      subs.next({status:401})
       subs.complete()
     })
   }
@@ -69,6 +90,10 @@ export class StorageAPIService {
     return this.readFromLocalStorage("availableCast")
   }
 
+  getAvailableLanguages(){
+    return this.readFromLocalStorage('language') || []
+  }
+
   addNewGenre(genre){
     let modified = this.readFromLocalStorage("availableGenres")
     genre.id = modified.length + 1
@@ -81,6 +106,14 @@ export class StorageAPIService {
     cast.id = modified.length + 1
     modified.push(cast)
     this.writeToLocalStorage("availableGenres" , modified)
+  }
+
+  addNewLanguage(language){
+    let modified = this.readFromLocalStorage("language") || []
+    let old = modified.find(l => l.toLowerCase() === language.toLowerCase())
+    if(!old)
+      modified.push(language)
+    this.writeToLocalStorage("language" , modified)
   }
 
   initializeLocalStorage() {
@@ -103,7 +136,7 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "image1"
+          "imageUrl": "assets/images/movie2.jpg"
         },
         {
           "contentId": "2",
@@ -123,7 +156,7 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "image2"
+          "imageUrl": "assets/images/movie3.jpg"
         },
         {
           "contentId": "3",
@@ -143,7 +176,7 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "image3"
+          "imageUrl": "assets/images/movie4.jpg"
         },
         {
           "contentId": "4",
@@ -161,7 +194,7 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "image4"
+          "imageUrl": "assets/images/movie2.jpg"
         },
         {
           "contentId": "5",
@@ -180,7 +213,7 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "image5"
+          "imageUrl": "assets/images/movie2.jpg"
         },
         {
           "contentId": "6",
@@ -200,7 +233,7 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "image6"
+          "imageUrl": "assets/images/movie2.jpg"
         },
         {
           "contentId": "7",
@@ -220,7 +253,7 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "image1"
+          "imageUrl": "assets/images/movie2.jpg"
         },
         {
           "contentId": "8",
@@ -240,7 +273,7 @@ export class StorageAPIService {
             "C"
           ],
           "year": "2000",
-          "imageUrl": "image1"
+          "imageUrl": "assets/images/movie2.jpg"
         }
       ];
 
@@ -274,6 +307,12 @@ export class StorageAPIService {
       }
     ]
 
+    const languages = [
+     "TAMIL",
+     "ENGLISH",
+     "HINDI"
+    ]
+
     const users = {
       "2" : {
         userId : "2",
@@ -302,6 +341,8 @@ export class StorageAPIService {
       this.writeToLocalStorage('availableCast' , availableCast)
     if(!localStorage.getItem('users'))
       this.writeToLocalStorage('users' , users)
+    if(!localStorage.getItem("language"))
+      this.writeToLocalStorage("language" , languages)
   }
 
   

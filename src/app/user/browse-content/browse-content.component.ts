@@ -4,9 +4,10 @@ import { FilterExpression, FilterExpressionType, FilterType, FilterTypeMapping }
 import { ContentState } from 'src/app/data/state/content/content.reducer';
 import { HomeComponent } from '../home/home.component';
 import { select, Store } from '@ngrx/store';
-import { FilterContent, LoadContents, LoadUserContent, SortContent, UserContentLoaded } from 'src/app/data/state/content/content.action';
+import { FilterContent, LoadContents, LoadUserContent, SortContent, UpdateContent, UserContentLoaded } from 'src/app/data/state/content/content.action';
 import { SortExpression, SortOrder } from 'src/app/data/models/sort';
 import { AppState } from 'src/app/data/state';
+import { MockapiService } from 'src/app/data/mockapi.service';
 
 
 @Component({
@@ -24,28 +25,31 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
   sortOrder: SortOrder = SortOrder.None
   sortFields: Array<string>;
   availableSortOrders;
+  authUser;
 
-
-  constructor(injector: Injector) {
+  constructor(injector: Injector, private mockApi: MockapiService) {
     super(injector);
     this.filterMap = new Map();
     this.filterFields = [
       { type: FilterType.Genre, filterName: "GENRE" },
       { type: FilterType.Language, filterName: "LANGUAGE" }
     ]
-    this.filterMap[FilterType.Genre] = ["ACTION", "ADVENTURE", "THRILLER"]
+    this.filterMap[FilterType.Genre] = this.mockApi.getAvailableGenres().map(genre => genre.name)
     this.filterMap[FilterType.Language] = ["TAMIL", "ENGLISH", "HINDI"]
+    this.filterMap[FilterType.Language] = this.mockApi.getAvailableLanguages()
+
 
     this.sortFields = ["RATING", "ADDED"];
-    this.availableSortOrders = [{order:SortOrder.ASCENDING , name: "ASCENDING"} ,{order:SortOrder.DESCENDING , name: "DESCENDING"}]
+    this.availableSortOrders = [{ order: SortOrder.ASCENDING, name: "ASCENDING" },
+     { order: SortOrder.DESCENDING, name: "DESCENDING" }]
 
   }
 
 
   ngOnInit(): void {
-    let authUser ;
-     this.store.select((state:AppState) => state.Auth.user).subscribe(authu => authUser = authu)
-    this.store.dispatch(new UserContentLoaded(authUser));
+
+    this.store.select((state: AppState) => state.Auth.user).subscribe(authu => this.authUser = authu)
+    this.store.dispatch(new LoadUserContent(this.authUser.userId));
   }
 
 
@@ -53,7 +57,7 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
     console.log($event);
     let filterTerm = $event;
     let filterMode = this.filterMode;
-    
+
     if (filterTerm == "NONE")
       filterMode = FilterType.None
 
@@ -61,7 +65,6 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
     appliedFilters.push(filterTerm);
     let payload = new FilterExpression(filterMode, appliedFilters)
     this.store.dispatch(new FilterContent(payload));
-    // this.displayContents = this.filterBy(filterTerm, filterMode);
   }
 
 
@@ -80,13 +83,26 @@ export class BrowseContentComponent extends HomeComponent implements OnInit {
 
 
   onSortChange($event) {
-    if(!(this.sortBy === "NONE")){
-      let sortExpression = new SortExpression(this.sortOrder , this.sortBy);
+    if (!(this.sortBy === "NONE")) {
+      let sortExpression = new SortExpression(this.sortOrder, this.sortBy);
       this.store.dispatch(new SortContent(sortExpression));
     }
-    
+
     // this.displayContents = sortedResult;
   }
 
- 
+  onUpdated($event) {
+    console.log($event)
+    let updatedContent = $event;
+    let user = this.authUser || null
+    const payload = {
+      user,
+      updatedContent: {
+        contentId: updatedContent.contentId,
+        rating: updatedContent.rating
+      }
+    }
+    this.store.dispatch(new UpdateContent(payload));
+  }
+
 }

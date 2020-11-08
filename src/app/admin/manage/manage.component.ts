@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { Content } from 'src/app/data/models/content';
+import { LogOut } from 'src/app/data/state/auth/auth.action';
+import { ToastService } from 'src/app/helpers/toast.service';
 import { StorageAPIService } from 'src/app/storage-api.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manage',
@@ -10,13 +14,15 @@ import { StorageAPIService } from 'src/app/storage-api.service';
 })
 export class ManageComponent implements OnInit {
 
-  constructor(private storageApi : StorageAPIService) { }
+  constructor(private storageApi: StorageAPIService,
+    private store: Store,
+    private toastService: ToastrService) { }
 
   ngOnInit(): void {
     this.availableGenres = this.storageApi.getAvailableGenres().map(genre => {
       return {
-        id:genre.id,
-        itemName:genre.name
+        id: genre.id,
+        itemName: genre.name
       }
     }) || []
     //  [
@@ -31,12 +37,12 @@ export class ManageComponent implements OnInit {
     //   { "id": 9, "itemName": "Italy" },
     //   { "id": 10, "itemName": "Sweden" }
     // ];
-    
 
-    this.availableCast =  this.storageApi.getAvailableCast().map(cast => {
+
+    this.availableCast = this.storageApi.getAvailableCast().map(cast => {
       return {
-        id:cast.id,
-        itemName:cast.name
+        id: cast.id,
+        itemName: cast.name
       }
     }) || []
     this.selectedGenres = [];
@@ -64,14 +70,15 @@ export class ManageComponent implements OnInit {
   }
 
 
-  contentForm:FormGroup = new FormGroup({
-    title: new FormControl(''),
+  contentForm: FormGroup = new FormGroup({
+    title: new FormControl('', Validators.required),
     type: new FormControl(''),
-    language: new FormControl(''),
+    language: new FormControl('', Validators.required),
     added: new FormControl(''),
-    genres: new FormControl([],Validators.required),
-    cast: new FormControl(''),
-    year: new FormControl(''),
+    genres: new FormControl([], Validators.required),
+    cast: new FormControl('', Validators.required),
+    year: new FormControl('', Validators.required),
+    imageUrl: new FormControl('', Validators.required)
   });
 
 
@@ -83,57 +90,70 @@ export class ManageComponent implements OnInit {
   selectedCast;
 
 
-  submitContentForm(){
-  this.createNewContentUsingFormData();    
+  submitContentForm() {
+    this.createNewContentUsingFormData();
   }
 
-  createNewContentUsingFormData(){
+  createNewContentUsingFormData() {
     let fValue = this.contentForm.value;
-    let newContent:Content = {} as Content;
+    let newContent: Content = {} as Content;
     newContent.title = fValue.title
     newContent.added = new Date()
     newContent.cast = fValue.cast.map(cast => cast.itemName)
     newContent.genres = fValue.genres.map(genre => genre.itemName)
+    // newContent.imageUrl = fValue.imageUrl
     newContent.imageUrl = this.imageUrl
     newContent.language = fValue.language
     console.log(newContent)
-    this.storageApi.addNewContent(newContent).subscribe(res => 
+    this.storageApi.addNewContent(newContent).subscribe(res =>
       console.log(res))
+      this.addNewLanguage(this.contentForm.value.language)
+    this.contentForm.reset()
+    this.imageUrl = ''
+    this.toastService.success('Success', 'New Content added successfully!');
   }
 
   setDataUrl = (imageUrl) => {
     this.imageUrl = imageUrl
   }
 
-  uploadFileToServer(event ,setDataUrl) {
+  uploadFileToServer(event, setDataUrl) {
     var file = event.srcElement.files[0];
     console.log(file);
     var reader = new FileReader();
     reader.readAsDataURL(file);
 
-    reader.onloadend = function() {
-        console.log((reader.result as string));
-        setDataUrl(reader.result)
-        
+    reader.onloadend = function () {
+      console.log((reader.result as string));
+      setDataUrl(reader.result)
+
     };
-    reader.onerror = function() {
-        console.log('there are some problems');
+    reader.onerror = function () {
+      console.log('there are some problems');
     };
-}
+  }
 
 
 
-imageUrl;
+  imageUrl;
 
-addNewCast(event){
-  console.log(event)
-  this.storageApi.addNewCast({name:event})
-}
+  addNewCast(event) {
+    console.log(event)
+    this.storageApi.addNewCast({ name: event })
+  }
 
-addNewGenre(event){
-  console.log(event)
-  this.storageApi.addNewGenre({name:event})
-}
+  addNewGenre(event) {
+    console.log(event)
+    this.storageApi.addNewGenre({ name: event })
+  }
+
+  addNewLanguage(language){
+    this.storageApi.addNewLanguage(language)
+  }
+
+  logout() {
+    this.store.dispatch(new LogOut)
+  }
 
 }
 
