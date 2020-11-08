@@ -80,8 +80,9 @@ export class ManageComponent implements OnInit {
     year: new FormControl('', Validators.required),
     imageUrl: new FormControl('', Validators.required)
   });
-
-
+  
+  
+  imageUrl;
   availableGenres;
   availableCast;
   selectedGenres;
@@ -105,12 +106,18 @@ export class ManageComponent implements OnInit {
     newContent.imageUrl = this.imageUrl
     newContent.language = fValue.language
     console.log(newContent)
-    this.storageApi.addNewContent(newContent).subscribe(res =>
-      console.log(res))
-      this.addNewLanguage(this.contentForm.value.language)
-    this.contentForm.reset()
-    this.imageUrl = ''
-    this.toastService.success('Success', 'New Content added successfully!');
+    this.storageApi.addNewContent(newContent).subscribe((res: any) => {
+      if (res.status) {
+        this.addNewLanguage(this.contentForm.value.language)
+
+        this.contentForm.reset()
+        this.imageUrl = ''
+        this.toastService.success('Success', 'New Content added successfully!');
+      }
+      else {
+        this.toastService.error(res.err, 'Could not add new Content! Please try with a smaller image LocalStorage is limited to 25MB', { timeOut: 15000 });
+      }
+    })
   }
 
   setDataUrl = (imageUrl) => {
@@ -135,7 +142,6 @@ export class ManageComponent implements OnInit {
 
 
 
-  imageUrl;
 
   addNewCast(event) {
     console.log(event)
@@ -147,7 +153,7 @@ export class ManageComponent implements OnInit {
     this.storageApi.addNewGenre({ name: event })
   }
 
-  addNewLanguage(language){
+  addNewLanguage(language) {
     this.storageApi.addNewLanguage(language)
   }
 

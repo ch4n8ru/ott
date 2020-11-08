@@ -66,6 +66,7 @@ export class StorageAPIService {
 
   addNewContent(newContent:Content){
     let avail = this.readFromLocalStorage('availableContent') 
+    let error = null;
     if(avail){
       newContent.contentId = String(avail.length + 1)
     }
@@ -74,11 +75,23 @@ export class StorageAPIService {
       newContent.contentId =  "1"
     }
     avail.push(newContent)
-    this.writeToLocalStorage('availableContent' , avail)
+    try{
+      
+      this.writeToLocalStorage('availableContent' , avail)
+    }
+    catch(err){
+      error = err
+    }
 
     return new Observable(subs => {
-      subs.next({status:"ok"})
+      if(!error){
+        subs.next({status:true})
+      }
+      else{
+        subs.next({status:false , err : error})
+      }
       subs.complete()
+      
     })
   }
 
